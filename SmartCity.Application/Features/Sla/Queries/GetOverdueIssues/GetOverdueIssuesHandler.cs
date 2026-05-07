@@ -23,10 +23,7 @@ namespace SmartCity.Application.Features.Sla.Queries.GetOverdueIssues
                 .Include(a => a.Issue)
                 .Include(a => a.Worker)
                     .ThenInclude(w => w.User) 
-                .Where(a => a.IsOverdue && 
-                            a.Issue.Status != IssueStatus.Resolved && 
-                            a.Issue.Status != IssueStatus.Closed &&
-                            a.Issue.Status != IssueStatus.Rejected)
+                .Where(a => a.IsOverdue && a.Issue.Status != IssueStatus.Resolved)
                 .Select(a => new OverdueIssueDto
                 {
                     IssueId = a.IssueId,
