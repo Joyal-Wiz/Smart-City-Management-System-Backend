@@ -109,10 +109,10 @@ namespace SmartCity.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (!result)
-                return BadRequest(ApiResponse<object>.FailResponse("Rejection failed"));
+            if (result.Errors != null)
+                return BadRequest(result);
 
-            return Ok(ApiResponse<object>.SuccessResponse("Worker registration rejected"));
+            return Ok(result);
         }
 
         [HttpPost("workers/block")]
