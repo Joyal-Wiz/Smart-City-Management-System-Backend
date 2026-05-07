@@ -1,4 +1,4 @@
-﻿namespace SmartCity.Application.DTOs.Sla
+namespace SmartCity.Application.DTOs.Sla
 {
     public class OverdueIssueDto
     {
@@ -9,5 +9,6 @@
         public DateTime Deadline { get; set; }
         public int EscalationLevel { get; set; }
         public double OverdueMinutes { get; set; }
+        public string Status { get; set; }
     }
 }

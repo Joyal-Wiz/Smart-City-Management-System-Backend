@@ -1,7 +1,8 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SmartCity.Application.DTOs.Sla;
 using SmartCity.Application.Interfaces;
+using SmartCity.Domain.Enums;
 
 namespace SmartCity.Application.Features.Sla.Queries.GetOverdueIssues
 {
@@ -22,7 +23,10 @@ namespace SmartCity.Application.Features.Sla.Queries.GetOverdueIssues
                 .Include(a => a.Issue)
                 .Include(a => a.Worker)
                     .ThenInclude(w => w.User) 
-                .Where(a => a.IsOverdue)
+                .Where(a => a.IsOverdue && 
+                            a.Issue.Status != IssueStatus.Resolved && 
+                            a.Issue.Status != IssueStatus.Closed &&
+                            a.Issue.Status != IssueStatus.Rejected)
                 .Select(a => new OverdueIssueDto
                 {
                     IssueId = a.IssueId,
@@ -31,7 +35,8 @@ namespace SmartCity.Application.Features.Sla.Queries.GetOverdueIssues
                     WorkerName = a.Worker.User.Name,
                     Deadline = a.Deadline,
                     EscalationLevel = a.EscalationLevel,
-                    OverdueMinutes = (now - a.Deadline).TotalMinutes
+                    OverdueMinutes = (now - a.Deadline).TotalMinutes,
+                    Status = a.Issue.Status.ToString()
                 })
                 .ToListAsync(cancellationToken);
 

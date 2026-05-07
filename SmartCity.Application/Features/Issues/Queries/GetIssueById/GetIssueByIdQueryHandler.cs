@@ -23,7 +23,6 @@ namespace SmartCity.Application.Features.Issues.Queries.GetIssueById
             if (issue == null)
                 throw new Exception("Issue not found");
 
-            // 🔥 Get latest assignment (no CreatedAt → take last)
             var assignment = issue.Assignments?
                 .LastOrDefault();
 
