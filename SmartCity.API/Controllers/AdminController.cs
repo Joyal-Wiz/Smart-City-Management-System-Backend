@@ -15,6 +15,7 @@ using SmartCity.Application.Features.Workers.Queries.GetAllWorkers;
 using SmartCity.Application.Features.Workers.Queries.GetPendingWorkers;
 using SmartCity.Application.Features.Issues.Queries.GetIssueById;
 using SmartCity.Application.Features.Workers.Queries.GetWorkerById;
+using SmartCity.Application.Features.Workers.DTO;
 
 namespace SmartCity.API.Controllers
 {
@@ -69,7 +70,7 @@ namespace SmartCity.API.Controllers
             var result = await _mediator.Send(new GetWorkerByIdQuery(id));
 
             if (result == null)
-                return NotFound(ApiResponse<object>.ErrorResponse("Worker not found"));
+                return NotFound(ApiResponse<object>.FailResponse("Worker not found"));
 
             return Ok(ApiResponse<GetWorkerByIdResponseDto>.SuccessResponse(
                 "Worker details fetched successfully",
